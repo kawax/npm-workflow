@@ -54,7 +54,7 @@ jobs:
         uses: actions/github-script@v6 #https://github.com/actions/github-script
         with:
           script: |
-            const result = await exec.getExecOutput('npx', ['npm-check-updates', '--prefix', '${{ inputs.npm-path }}'], {
+            const result = await exec.getExecOutput('npx', ['npm-check-updates', '--packageFile', '${{ inputs.npm-path }}', '-y'], {
               ignoreReturnCode: true,
             })
             const ncu = result.stdout
