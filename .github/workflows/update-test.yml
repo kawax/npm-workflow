@@ -16,3 +16,4 @@ jobs:
       git-name: kawax
       git-email: 1502086+kawax@users.noreply.github.com
       npm-path: ./npm
+      branch: npm-update-v1
