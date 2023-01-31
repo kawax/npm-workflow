@@ -1,0 +1,76 @@
+name: npm update
+
+on:
+  workflow_call:
+    inputs:
+      node:
+        default: 'latest'
+        required: false
+        type: string
+      npm-path:
+        default: './'
+        required: false
+        type: string
+      git-name:
+        default: 'github-actions[bot]'
+        required: false
+        type: string
+      git-email:
+        default: '41898282+github-actions[bot]@users.noreply.github.com'
+        required: false
+        type: string
+      branch:
+        default: 'npm-update'
+        required: false
+        type: string
+      title:
+        default: 'npm update'
+        required: false
+        type: string
+      commit-message:
+        default: 'npm update'
+        required: false
+        type: string
+    secrets:
+      token:
+        required: true
+
+jobs:
+  npm_update_job:
+    name: npm update
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP, with composer and extensions
+        uses: actions/setup-node@v3 #https://github.com/actions/setup-node
+        with:
+          node-version: ${{ inputs.node }}
+      - name: Install npm dependencies
+        working-directory: ${{ inputs.npm-path }}
+        run: npm ci
+      - name: npm update
+        id: npm
+        uses: actions/github-script@v6 #https://github.com/actions/github-script
+        with:
+          script: |
+            const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}'], {
+              ignoreReturnCode: true,
+            })
+            const output = result.stdout + result.stderr
+            core.setOutput('output', output)
+      - name: npm output
+        run: |
+          echo "${{ steps.npm.outputs.output }}"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4 #https://github.com/peter-evans/create-pull-request
+        with:
+          token: ${{ secrets.token }}
+          branch: ${{ inputs.branch }}
+          commit-message: ${{ inputs.commit-message }}
+          committer: ${{ inputs.git-name }} <${{ inputs.git-email }}>
+          author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
+          title: ${{ inputs.title }}
+          body: ${{ steps.npm.outputs.output }}
+          add-paths: |
+            *-lock.json
