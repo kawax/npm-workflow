@@ -82,6 +82,6 @@ jobs:
           committer: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
-          body: ${{ steps.outdated.outputs.outdated }} ${{ steps.update.outputs.output }}
+          body: ${{ steps.outdated.outputs.outdated }} ${{ steps.update.outputs.update }}
           add-paths: |
             *-lock.json
