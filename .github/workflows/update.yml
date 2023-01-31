@@ -69,10 +69,10 @@ jobs:
             })
             const update = result.stdout + result.stderr
             core.setOutput('update', update)
+            core.setOutput('output', ${{ steps.outdated.outputs.outdated }}+update)
       - name: npm output
         run: |
-          echo "${{ steps.outdated.outputs.outdated }}"
-          echo "${{ steps.update.outputs.update }}"
+          echo "${{ steps.update.outputs.output }}"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4 #https://github.com/peter-evans/create-pull-request
         with:
@@ -82,6 +82,6 @@ jobs:
           committer: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
-          body: ${{ steps.outdated.outputs.outdated }}
+          body: ${{ steps.update.outputs.output }}
           add-paths: |
             *-lock.json
