@@ -2,14 +2,14 @@ name: test
 
 on:
   schedule:
-    - cron: '0 * * * *' #UTC
+    - cron: '0 0 * * *' #UTC
   push:
     branches:
-      - 'main'
+      - 'v1'
 
 jobs:
   npm:
-    uses: kawax/npm-workflow/.github/workflows/update.yml@main
+    uses: kawax/npm-workflow/.github/workflows/update.yml@v1
     secrets:
       token: ${{ secrets.ACTION_TOKEN }}
     with:

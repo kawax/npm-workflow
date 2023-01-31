@@ -20,7 +20,7 @@ on:
 
 jobs:
   composer:
-    uses: kawax/npm-workflow/.github/workflows/update.yml@main
+    uses: kawax/npm-workflow/.github/workflows/update.yml@v1
     secrets:
       token: ${{ secrets.ACTION_TOKEN }}
 ```
@@ -39,7 +39,7 @@ jobs:
 ```yaml
 jobs:
   composer:
-    uses: kawax/npm-workflow/.github/workflows/update.yml@main
+    uses: kawax/npm-workflow/.github/workflows/update.yml@v1
     secrets:
       token: ${{ secrets.ACTION_TOKEN }}
     with:
