@@ -57,8 +57,8 @@ jobs:
             const result = await exec.getExecOutput('npm', ['outdated', '--prefix', '${{ inputs.npm-path }}'], {
               ignoreReturnCode: true,
             })
-            const outdated = result.stdout + result.stderr
-            core.setOutput('outdated', outdated)
+            const outdated = result.stdout
+            core.setOutput('outdated', outdated.trim())
       - name: npm update
         id: update
         uses: actions/github-script@v6 #https://github.com/actions/github-script
@@ -67,8 +67,8 @@ jobs:
             const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}', '--ignore-scripts', '--no-fund'], {
               ignoreReturnCode: true,
             })
-            const update = result.stdout + result.stderr
-            core.setOutput('update', update)
+            const update = result.stdout
+            core.setOutput('update', update.trim())
       - name: npm output
         run: |
           echo "${{ steps.outdated.outputs.outdated }}"
