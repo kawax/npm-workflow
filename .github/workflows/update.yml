@@ -69,7 +69,7 @@ jobs:
             })
             const update = result.stdout + result.stderr
             core.setOutput('update', update)
-            core.setOutput('output', ${{ steps.outdated.outputs.outdated }}+update)
+            core.setOutput('output', '${{ steps.outdated.outputs.outdated }}' + update)
       - name: npm output
         run: |
           echo "${{ steps.update.outputs.output }}"
