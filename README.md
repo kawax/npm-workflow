@@ -38,7 +38,7 @@ jobs:
 
 ```yaml
 jobs:
-  composer:
+  npm:
     uses: kawax/npm-workflow/.github/workflows/update.yml@main
     secrets:
       token: ${{ secrets.ACTION_TOKEN }}
