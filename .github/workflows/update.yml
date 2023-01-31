@@ -67,11 +67,12 @@ jobs:
             const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}', '--ignore-scripts', '--no-fund'], {
               ignoreReturnCode: true,
             })
-            const output = '${{ steps.outdated.outputs.outdated }}' + result.stdout + result.stderr
-            core.setOutput('output', output)
+            const update = result.stdout + result.stderr
+            core.setOutput('update', update)
       - name: npm output
         run: |
-          echo "${{ steps.update.outputs.output }}"
+          echo "${{ steps.outdated.outputs.outdated }}"
+          echo "${{ steps.update.outputs.update }}"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4 #https://github.com/peter-evans/create-pull-request
         with:
@@ -81,6 +82,6 @@ jobs:
           committer: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
-          body: ${{ steps.update.outputs.output }}
+          body: "${{ steps.outdated.outputs.outdated }} ${{ steps.update.outputs.output }}
           add-paths: |
             *-lock.json
