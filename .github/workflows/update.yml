@@ -49,6 +49,16 @@ jobs:
       - name: npm ci
         working-directory: ${{ inputs.npm-path }}
         run: npm ci
+      - name: npm check-updates
+        id: ncu
+        uses: actions/github-script@v6 #https://github.com/actions/github-script
+        with:
+          script: |
+            const result = await exec.getExecOutput('npx', ['npm-check-updates', '--prefix', '${{ inputs.npm-path }}'], {
+              ignoreReturnCode: true,
+            })
+            const ncu = result.stdout
+            core.setOutput('ncu', ncu.trim())
       - name: npm outdated
         id: outdated
         uses: actions/github-script@v6 #https://github.com/actions/github-script
@@ -71,6 +81,7 @@ jobs:
             core.setOutput('update', update.trim())
       - name: npm output
         run: |
+          echo "${{ steps.ncu.outputs.ncu }}"
           echo "${{ steps.outdated.outputs.outdated }}"
           echo "${{ steps.update.outputs.update }}"
       - name: Create Pull Request
@@ -83,6 +94,10 @@ jobs:
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
           body: |
+            ### npm-check-updates
+            ```
+            ${{ steps.ncu.outputs.ncu }}
+            ```
             ### npm outdated
             ```
             ${{ steps.outdated.outputs.outdated }}
