@@ -54,7 +54,7 @@ jobs:
         uses: actions/github-script@v6 #https://github.com/actions/github-script
         with:
           script: |
-            const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}'], {
+            const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}', '--ignore-scripts', '--no-fund'], {
               ignoreReturnCode: true,
             })
             const output = result.stdout + result.stderr
