@@ -83,7 +83,13 @@ jobs:
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
           body: |
+            ### npm outdated
+            ```
             ${{ steps.outdated.outputs.outdated }}
+            ```
+            ### npm update
+            ```
             ${{ steps.update.outputs.update }}
+            ```
           add-paths: |
             *-lock.json
