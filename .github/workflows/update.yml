@@ -42,11 +42,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup PHP, with composer and extensions
+      - name: Setup node
         uses: actions/setup-node@v3 #https://github.com/actions/setup-node
         with:
           node-version: ${{ inputs.node }}
-      - name: Install npm dependencies
+      - name: npm ci
         working-directory: ${{ inputs.npm-path }}
         run: npm ci
       - name: npm outdated
@@ -67,9 +67,8 @@ jobs:
             const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}', '--ignore-scripts', '--no-fund'], {
               ignoreReturnCode: true,
             })
-            const update = result.stdout + result.stderr
-            core.setOutput('update', update)
-            core.setOutput('output', '${{ steps.outdated.outputs.outdated }}' + update)
+            const output = '${{ steps.outdated.outputs.outdated }}' + result.stdout + result.stderr
+            core.setOutput('output', output)
       - name: npm output
         run: |
           echo "${{ steps.update.outputs.output }}"
