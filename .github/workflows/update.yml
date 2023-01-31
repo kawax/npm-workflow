@@ -50,7 +50,7 @@ jobs:
         working-directory: ${{ inputs.npm-path }}
         run: npm ci
       - name: npm outdated
-        id: npm
+        id: outdated
         uses: actions/github-script@v6 #https://github.com/actions/github-script
         with:
           script: |
@@ -60,7 +60,7 @@ jobs:
             const outdated = result.stdout + result.stderr
             core.setOutput('outdated', outdated)
       - name: npm update
-        id: npm
+        id: update
         uses: actions/github-script@v6 #https://github.com/actions/github-script
         with:
           script: |
@@ -71,8 +71,8 @@ jobs:
             core.setOutput('update', update)
       - name: npm output
         run: |
-          echo "${{ steps.npm.outputs.outdated }}"
-          echo "${{ steps.npm.outputs.update }}"
+          echo "${{ steps.outdated.outputs.outdated }}"
+          echo "${{ steps.update.outputs.update }}"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4 #https://github.com/peter-evans/create-pull-request
         with:
@@ -82,6 +82,6 @@ jobs:
           committer: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           author: ${{ inputs.git-name }} <${{ inputs.git-email }}>
           title: ${{ inputs.title }}
-          body: ${{ steps.npm.outputs.outdated }}
+          body: ${{ steps.outdated.outputs.outdated }}
           add-paths: |
             *-lock.json
