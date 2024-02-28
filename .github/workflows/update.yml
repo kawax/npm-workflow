@@ -74,7 +74,7 @@ jobs:
           echo "${{ steps.outdated.outputs.outdated }}"
           echo "${{ steps.update.outputs.update }}"
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4 #https://github.com/peter-evans/create-pull-request
+        uses: peter-evans/create-pull-request@v6 #https://github.com/peter-evans/create-pull-request
         with:
           token: ${{ secrets.token }}
           branch: ${{ inputs.branch }}
