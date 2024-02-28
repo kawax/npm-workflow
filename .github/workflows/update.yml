@@ -61,7 +61,7 @@ jobs:
             core.setOutput('outdated', outdated.trim())
       - name: npm update
         id: update
-        uses: actions/github-script@v6 #https://github.com/actions/github-script
+        uses: actions/github-script@v7 #https://github.com/actions/github-script
         with:
           script: |
             const result = await exec.getExecOutput('npm', ['update', '--prefix', '${{ inputs.npm-path }}', '--ignore-scripts', '--no-fund'], {
