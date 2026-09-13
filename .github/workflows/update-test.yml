@@ -3,7 +3,7 @@ name: test
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *' #UTC
+    - cron: '0 0 * * 6' #UTC
   push:
     branches:
       - 'v1'
